@@ -1,9 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
-using jurni_web_app_api.Data.Entities;
-using jurni_web_app_api.Interfaces;
-using Moq;
-
 namespace jurni_web_app_api.xUnit.Tests;
 
 public class UserControllerTests
@@ -14,9 +8,9 @@ public class UserControllerTests
         //Arrange
         var userRepo = CreateUserRepo();
         var user = CreateUserAdapter(userRepo);
-        var userFromList = CreateListUsers();
+        var usersFromList = CreateListUsers();
 
-        userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(userFromList));
+        userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(usersFromList));
 
         //Act
         var result = user.GetUsers();
@@ -24,9 +18,9 @@ public class UserControllerTests
         //Assert
         Assert.NotNull(result);
         var usersFromResult = result.Result;
-        Assert.True(usersFromResult.Count().Equals(userFromList.Count()));
+        Assert.True(usersFromResult.Count().Equals(usersFromList.Count()));
         Assert.True(usersFromResult.FirstOrDefault().Email
-            .Equals(userFromList.FirstOrDefault().Email));
+            .Equals(usersFromList.FirstOrDefault().Email));
     }
     
     [Fact]
