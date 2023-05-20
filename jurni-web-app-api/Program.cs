@@ -1,17 +1,38 @@
+using jurni_web_app_api.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// UNCOMMENT LINES APPROPRIATE TO DESIRED DATABASE TYPE
+// When using SSH tunneling to connect to a remote database
+var connectionString = builder.Configuration.GetConnectionString("JurniWebAppApiDb");
+builder.Services.AddDbContext<jurni_web_app_apiDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// When using a local database
+// var connectionString = builder.Configuration.GetConnectionString("JurniWebAppApiDb_local");
+// builder.Services.AddDbContext<JurniWebAppDbContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (!app.Environment.IsDevelopment()) {
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+} else if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
