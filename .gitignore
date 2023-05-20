@@ -810,4 +810,4 @@ $RECYCLE.BIN/
 
 ### Manual additions ###
 .idea/
-/kruitbosch-intranet-api/appsettings.json
+jurni-web-app-api/appsettings.json

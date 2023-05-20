@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jurni-web-app-api", "jurni-web-app-api\jurni-web-app-api.csproj", "{5FA13DEF-D7D9-4210-8E99-43001568C130}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jurni-web-app-api.xUnit", "jurni-web-app-api.xUnit\jurni-web-app-api.xUnit.csproj", "{67AB73D5-C0E8-492E-8175-4DFDA6308254}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FA13DEF-D7D9-4210-8E99-43001568C130}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FA13DEF-D7D9-4210-8E99-43001568C130}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FA13DEF-D7D9-4210-8E99-43001568C130}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FA13DEF-D7D9-4210-8E99-43001568C130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67AB73D5-C0E8-492E-8175-4DFDA6308254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67AB73D5-C0E8-492E-8175-4DFDA6308254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67AB73D5-C0E8-492E-8175-4DFDA6308254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67AB73D5-C0E8-492E-8175-4DFDA6308254}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
