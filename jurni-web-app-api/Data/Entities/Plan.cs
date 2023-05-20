@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace jurni_web_app_api.Data.Entities;
+﻿namespace jurni_web_app_api.Data.Entities;
 
 /**
  * This class represents a plan, which a user is able to subscribe to.

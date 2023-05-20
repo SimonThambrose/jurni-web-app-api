@@ -1,9 +1,4 @@
-﻿using jurni_web_app_api.Data;
-using jurni_web_app_api.Data.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace jurni_web_app_api.Controllers;
+﻿namespace jurni_web_app_api.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]

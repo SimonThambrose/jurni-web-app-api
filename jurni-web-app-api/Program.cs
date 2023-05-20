@@ -1,5 +1,3 @@
-using jurni_web_app_api.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 

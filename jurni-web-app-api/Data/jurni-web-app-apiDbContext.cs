@@ -1,7 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using jurni_web_app_api.Data.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace jurni_web_app_api.Data;
 
