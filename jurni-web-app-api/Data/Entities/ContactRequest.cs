@@ -38,7 +38,7 @@ public class ContactRequest
     public bool IsEnterprisePlan { get; set; }
     
     [Column(TypeName = "varchar(8)")]
-    public string Status { get; set; }
+    public string? Status { get; set; }
     
     [Column(TypeName = "datetime")]
     public DateTime? CreatedOn { get; set; }

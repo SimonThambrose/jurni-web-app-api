@@ -87,7 +87,7 @@ public class BlogControllerTests
             {
                 Id = 7, Title = "Blog title", Description = "Blog description", AuthorId = 1, Author = author, Likes = 6,
                 CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now
-            },
+            }
         };
     }
 

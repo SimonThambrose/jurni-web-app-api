@@ -87,7 +87,7 @@ public class UserControllerTests
                 Id = 7, FirstName = "John", LastName = "Doe", Email = "john@doe.com",
                 PasswordSalt = hmac.ComputeHash(Encoding.UTF8.GetBytes("JohnDoePassword")), PasswordHash = hmac.Key,
                 IsAdmin = false, CreatedAt = DateTime.Now, UpdatedAt = DateTime.Now
-            },
+            }
         };
     }
 
