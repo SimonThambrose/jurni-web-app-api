@@ -4,9 +4,9 @@
 [Route("/api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly jurni_web_app_apiDbContext _jurniWebAppApiDbContext;
+    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
     
-    public UserController(jurni_web_app_apiDbContext jurniWebAppApiDbContext)
+    public UserController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
     {
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }

@@ -4,9 +4,9 @@
 [Route("/api/[controller]")]
 public class ContactRequestController : ControllerBase
 {
-    private readonly jurni_web_app_apiDbContext _jurniWebAppApiDbContext;
+    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
     
-    public ContactRequestController(jurni_web_app_apiDbContext jurniWebAppApiDbContext)
+    public ContactRequestController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
     {
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }

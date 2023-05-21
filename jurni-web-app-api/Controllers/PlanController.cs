@@ -4,9 +4,9 @@
 [Route("/api/[controller]")]
 public class PlanController : ControllerBase
 {
-    private readonly jurni_web_app_apiDbContext _jurniWebAppApiDbContext;
+    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
     
-    public PlanController(jurni_web_app_apiDbContext jurniWebAppApiDbContext)
+    public PlanController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
     {
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }
