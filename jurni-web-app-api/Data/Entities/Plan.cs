@@ -16,9 +16,9 @@ public class Plan
     
     [Column(TypeName = "varchar(45)")]
     public string Name { get; set; }
-    public int? Price { get; set; }
+    public double? Price { get; set; }
     
     [Column(TypeName = "varchar(500)")]
     public string? Description { get; set; }
-    public ICollection<User> Users { get; set; }
+    public ICollection<User>? Users { get; set; }
 }

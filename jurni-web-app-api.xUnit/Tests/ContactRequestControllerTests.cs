@@ -3,7 +3,7 @@ namespace jurni_web_app_api.xUnit.Tests;
 public class ContactRequestControllerTests
 {
     [Fact]
-    public void GetContactRequest_ExistingData_ReturnsContactRequests()
+    public void GetContactRequests_ExistingData_ReturnsContactRequests()
     {
         //Arrange
         var contactRequestRepo = CreateContactRequestRepo();
@@ -24,7 +24,7 @@ public class ContactRequestControllerTests
     }
 
     [Fact]
-    public void GetBlogs_NonExistingData_ReturnsEmptyList()
+    public void GetContactRequests_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
         var contactRequestRepo = CreateContactRequestRepo();

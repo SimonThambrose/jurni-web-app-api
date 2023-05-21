@@ -3,7 +3,7 @@ namespace jurni_web_app_api.xUnit.Tests;
 public class BlogControllerTests
 {
     [Fact]
-    public void GetBlog_ExistingData_ReturnsBlogs()
+    public void GetBlogs_ExistingData_ReturnsBlogs()
     {
         //Arrange
         var blogRepo = CreateBlogRepo();

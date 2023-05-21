@@ -11,7 +11,7 @@ using jurni_web_app_api.Data;
 namespace jurni_web_app_api.Migrations
 {
     [DbContext(typeof(jurni_web_app_apiDbContext))]
-    [Migration("20230521072809_initial_migration")]
+    [Migration("20230521131226_initial_migration")]
     partial class initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,8 +114,8 @@ namespace jurni_web_app_api.Migrations
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
 
-                    b.Property<int?>("Price")
-                        .HasColumnType("int");
+                    b.Property<double?>("Price")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
@@ -127,21 +127,21 @@ namespace jurni_web_app_api.Migrations
                             Id = 1,
                             Description = "Limited to 10 matches per day.",
                             Name = "Free",
-                            Price = 0
+                            Price = 0.0
                         },
                         new
                         {
                             Id = 2,
                             Description = "Limited to 50 matches per day, with additional features.",
                             Name = "Basic",
-                            Price = 10
+                            Price = 10.0
                         },
                         new
                         {
                             Id = 3,
                             Description = "Unlimited matches per day, with additional features and support.",
                             Name = "Premium",
-                            Price = 20
+                            Price = 20.0
                         },
                         new
                         {
@@ -202,14 +202,14 @@ namespace jurni_web_app_api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 5, 21, 9, 28, 8, 642, DateTimeKind.Local).AddTicks(4621),
+                            CreatedAt = new DateTime(2023, 5, 21, 15, 12, 26, 230, DateTimeKind.Local).AddTicks(2306),
                             Email = "johnj@jurni.nl",
                             FirstName = "John",
                             IsAdmin = true,
                             LastName = "Johnson",
-                            PasswordHash = new byte[] { 93, 197, 127, 140, 14, 175, 210, 8, 104, 167, 237, 92, 39, 157, 56, 113, 186, 38, 136, 81, 169, 35, 23, 234, 152, 129, 105, 109, 164, 13, 203, 85, 71, 213, 179, 199, 104, 63, 119, 201, 206, 149, 127, 105, 104, 131, 139, 232, 224, 193, 143, 153, 61, 74, 216, 245, 89, 111, 172, 161, 95, 220, 10, 188 },
-                            PasswordSalt = new byte[] { 6, 215, 75, 86, 156, 93, 237, 126, 123, 159, 110, 199, 103, 204, 129, 181, 71, 218, 176, 115, 34, 151, 224, 166, 63, 252, 161, 17, 142, 3, 250, 246, 31, 101, 130, 193, 59, 57, 241, 200, 98, 39, 188, 190, 26, 165, 58, 120, 195, 131, 74, 247, 169, 167, 91, 222, 220, 3, 2, 12, 117, 27, 217, 68, 195, 237, 68, 5, 124, 154, 59, 101, 177, 243, 16, 192, 136, 220, 240, 192, 33, 22, 4, 158, 220, 195, 81, 64, 72, 5, 178, 141, 200, 161, 142, 98, 98, 154, 170, 184, 14, 99, 216, 142, 77, 231, 146, 3, 146, 236, 189, 82, 63, 70, 229, 46, 81, 46, 7, 245, 132, 253, 44, 103, 240, 18, 233, 242 },
-                            UpdatedAt = new DateTime(2023, 5, 21, 9, 28, 8, 642, DateTimeKind.Local).AddTicks(4678)
+                            PasswordHash = new byte[] { 191, 19, 161, 9, 90, 5, 4, 217, 37, 240, 147, 26, 18, 163, 170, 10, 247, 180, 55, 66, 32, 71, 184, 254, 255, 64, 60, 202, 63, 93, 247, 122, 230, 3, 86, 79, 253, 185, 13, 85, 210, 161, 164, 228, 35, 8, 219, 15, 108, 212, 244, 11, 237, 196, 251, 104, 88, 66, 52, 216, 76, 186, 144, 195 },
+                            PasswordSalt = new byte[] { 115, 200, 173, 229, 159, 86, 184, 189, 213, 97, 57, 111, 129, 170, 141, 14, 169, 40, 93, 67, 135, 103, 79, 201, 3, 35, 179, 201, 182, 59, 229, 146, 201, 78, 134, 145, 68, 82, 131, 51, 52, 9, 169, 207, 135, 157, 176, 160, 171, 250, 224, 148, 4, 224, 80, 115, 186, 251, 157, 240, 220, 88, 149, 156, 181, 105, 87, 104, 249, 104, 238, 17, 231, 216, 157, 223, 87, 82, 79, 96, 40, 65, 209, 219, 237, 142, 163, 230, 32, 231, 13, 128, 95, 9, 95, 157, 70, 119, 38, 92, 162, 120, 106, 153, 87, 93, 109, 181, 34, 129, 115, 188, 31, 108, 171, 71, 96, 206, 102, 41, 131, 231, 246, 23, 166, 226, 175, 31 },
+                            UpdatedAt = new DateTime(2023, 5, 21, 15, 12, 26, 230, DateTimeKind.Local).AddTicks(2345)
                         });
                 });
 
