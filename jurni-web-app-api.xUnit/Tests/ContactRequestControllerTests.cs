@@ -1,19 +1,24 @@
+using jurni_web_app_api.Controllers;
+
 namespace jurni_web_app_api.xUnit.Tests;
 
 public class ContactRequestControllerTests
 {
+    private Mock<IContactRequestRepository> _contactRequestRepo;
+    private ContactRequestController _sut;
+    
     [Fact]
     public void GetContactRequests_ExistingData_ReturnsContactRequests()
     {
         //Arrange
-        var contactRequestRepo = CreateContactRequestRepo();
-        var contactRequest = CreateContactRequestAdapter(contactRequestRepo);
+        _contactRequestRepo = new Mock<IContactRequestRepository>();
+        _sut = new ContactRequestController(_contactRequestRepo.Object);
         var contactRequestsFromList = CreateListContactRequests();
 
-        contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
+        _contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
 
         //Act
-        var result = contactRequest.GetContactRequests();
+        var result = _sut.getContactRequests();
 
         //Assert
         Assert.NotNull(result);
@@ -27,14 +32,14 @@ public class ContactRequestControllerTests
     public void GetContactRequests_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var contactRequestRepo = CreateContactRequestRepo();
-        var contactRequest = CreateContactRequestAdapter(contactRequestRepo);
+        _contactRequestRepo = new Mock<IContactRequestRepository>();
+        _sut = new ContactRequestController(_contactRequestRepo.Object);
         var contactRequestsEmptyList = CreateEmptyListContactRequests();
 
-        contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
+        _contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
 
         //Act
-        var result = contactRequest.GetContactRequests();
+        var result = _sut.getContactRequests();
 
         //Assert
         var data = result.Result;
@@ -93,15 +98,5 @@ public class ContactRequestControllerTests
     private IEnumerable<ContactRequest> CreateEmptyListContactRequests()
     {
         return new List<ContactRequest>();
-    }
-
-    private Mock<IContactRequestRepository> CreateContactRequestRepo()
-    {
-        return new Mock<IContactRequestRepository>();
-    }
-
-    private Adapter.ContactRequest CreateContactRequestAdapter(Mock<IContactRequestRepository> contactRequestRepository)
-    {
-        return new Adapter.ContactRequest(contactRequestRepository.Object);
     }
 }

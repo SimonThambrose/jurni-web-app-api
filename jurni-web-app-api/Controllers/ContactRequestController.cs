@@ -4,16 +4,16 @@
 [Route("/api/[controller]")]
 public class ContactRequestController : ControllerBase
 {
-    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
-    
-    public ContactRequestController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
+    private IContactRequestRepository _contactRequestRepository;
+
+    public ContactRequestController(IContactRequestRepository contactRequestRepository)
     {
-        _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
+        _contactRequestRepository = contactRequestRepository;
     }
-    
+
     [HttpGet("getContactRequests")]
-    public async Task<IEnumerable<ContactRequest>> GetContactRequests()
+    public async Task<IEnumerable<ContactRequest>> getContactRequests()
     {
-        return await _jurniWebAppApiDbContext.ContactRequests.ToListAsync();
+        return await _contactRequestRepository.GetContactRequests();
     }
 }

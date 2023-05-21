@@ -2,18 +2,21 @@ namespace jurni_web_app_api.xUnit.Tests;
 
 public class UserControllerTests
 {
+    private Mock<IUserRepository> _userRepo;
+    private UserController _sut;
+    
     [Fact]
     public void GetUsers_ExistingData_ReturnsUsers()
     {
         //Arrange
-        var userRepo = CreateUserRepo();
-        var user = CreateUserAdapter(userRepo);
+        _userRepo = new Mock<IUserRepository>();
+        _sut = new UserController(_userRepo.Object);
         var usersFromList = CreateListUsers();
 
-        userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(usersFromList));
+        _userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(usersFromList));
 
         //Act
-        var result = user.GetUsers();
+        var result = _sut.GetUsers();
 
         //Assert
         Assert.NotNull(result);
@@ -27,14 +30,14 @@ public class UserControllerTests
     public void GetUsers_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var userRepo = CreateUserRepo();
-        var user = CreateUserAdapter(userRepo);
+        _userRepo = new Mock<IUserRepository>();
+        _sut = new UserController(_userRepo.Object);
         var userEmptyList = CreateEmptyListUsers();
 
-        userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(userEmptyList));
+        _userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(userEmptyList));
 
         //Act
-        var result = user.GetUsers();
+        var result = _sut.GetUsers();
 
         //Assert
         var data = result.Result;
@@ -94,15 +97,5 @@ public class UserControllerTests
     private IEnumerable<User> CreateEmptyListUsers()
     {
         return new List<User>();
-    }
-
-    private Mock<IUserRepository> CreateUserRepo()
-    {
-        return new Mock<IUserRepository>();
-    }
-
-    private Adapter.User CreateUserAdapter(Mock<IUserRepository> userRepository)
-    {
-        return new Adapter.User(userRepository.Object);
     }
 }

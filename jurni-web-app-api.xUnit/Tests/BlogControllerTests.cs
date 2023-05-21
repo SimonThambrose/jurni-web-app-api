@@ -2,39 +2,41 @@ namespace jurni_web_app_api.xUnit.Tests;
 
 public class BlogControllerTests
 {
+    private Mock<IBlogRepository> _blogRepo;
+    private BlogController _sut;
+    
     [Fact]
     public void GetBlogs_ExistingData_ReturnsBlogs()
     {
         //Arrange
-        var blogRepo = CreateBlogRepo();
-        var blog = CreateBlogAdapter(blogRepo);
+        _blogRepo = new Mock<IBlogRepository>();
+        _sut = new BlogController(_blogRepo.Object);
         var blogsFromList = CreateListBlogs();
 
-        blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsFromList));
+        _blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsFromList));
 
         //Act
-        var result = blog.GetBlogs();
+        var result = _sut.getBlogs();
 
         //Assert
         Assert.NotNull(result);
         var blogsFromResult = result.Result;
         Assert.True(blogsFromResult.Count().Equals(blogsFromList.Count()));
-        Assert.True(blogsFromResult.FirstOrDefault().Title
-            .Equals(blogsFromList.FirstOrDefault().Title));
+        Assert.True(blogsFromResult.FirstOrDefault().Title.Equals(blogsFromList.FirstOrDefault().Title));
     }
 
     [Fact]
     public void GetBlogs_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var blogRepo = CreateBlogRepo();
-        var blog = CreateBlogAdapter(blogRepo);
+        _blogRepo = new Mock<IBlogRepository>();
+        _sut = new BlogController(_blogRepo.Object);
         var blogsEmptyList = CreateEmptyListBlogs();
 
-        blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsEmptyList));
+        _blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsEmptyList));
 
         //Act
-        var result = blog.GetBlogs();
+        var result = _sut.getBlogs();
 
         //Assert
         var data = result.Result;
@@ -94,15 +96,5 @@ public class BlogControllerTests
     private IEnumerable<Blog> CreateEmptyListBlogs()
     {
         return new List<Blog>();
-    }
-
-    private Mock<IBlogRepository> CreateBlogRepo()
-    {
-        return new Mock<IBlogRepository>();
-    }
-
-    private Adapter.Blog CreateBlogAdapter(Mock<IBlogRepository> blogRepository)
-    {
-        return new Adapter.Blog(blogRepository.Object);
     }
 }

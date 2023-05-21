@@ -4,16 +4,16 @@
 [Route("/api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
-    
-    public UserController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
+    private IUserRepository _userRepository;
+
+    public UserController(IUserRepository userRepository)
     {
-        _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
+        _userRepository = userRepository;
     }
-    
+
     [HttpGet("getUsers")]
     public async Task<IEnumerable<User>> GetUsers()
     {
-        return await _jurniWebAppApiDbContext.Users.ToListAsync();
+        return await _userRepository.GetUsers();
     }
 }

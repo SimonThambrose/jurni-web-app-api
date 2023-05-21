@@ -4,16 +4,16 @@
 [Route("/api/[controller]")]
 public class BlogController : ControllerBase
 {
-    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
-    
-    public BlogController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
+    private IBlogRepository _blogRepository;
+
+    public BlogController(IBlogRepository blogRepository)
     {
-        _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
+        _blogRepository = blogRepository;
     }
-    
+
     [HttpGet("getBlogs")]
-    public async Task<IEnumerable<Blog>> GetBlogs()
+    public async Task<IEnumerable<Blog>> getBlogs()
     {
-        return await _jurniWebAppApiDbContext.Blogs.ToListAsync();
+        return await _blogRepository.GetBlogs();
     }
 }

@@ -2,18 +2,21 @@ namespace jurni_web_app_api.xUnit.Tests;
 
 public class PlanControllerTests
 {
+    private Mock<IPlanRepository> _planRepo;
+    private PlanController _sut;
+    
     [Fact]
     public void GetPlans_ExistingData_ReturnsPlans()
     {
         //Arrange
-        var planRepo = CreatePlanRepo();
-        var plan = CreatePlanAdapter(planRepo);
+        _planRepo = new Mock<IPlanRepository>();
+        _sut = new PlanController(_planRepo.Object);
         var plansFromList = CreateListPlans();
 
-        planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansFromList));
+        _planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansFromList));
 
         //Act
-        var result = plan.GetPlans();
+        var result = _sut.GetPlans();
 
         //Assert
         Assert.NotNull(result);
@@ -27,14 +30,14 @@ public class PlanControllerTests
     public void GetBlogs_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var planRepo = CreatePlanRepo();
-        var plan = CreatePlanAdapter(planRepo);
+        _planRepo = new Mock<IPlanRepository>();
+        _sut = new PlanController(_planRepo.Object);
         var plansEmptyList = CreateEmptyListPlans();
 
-        planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansEmptyList));
+        _planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansEmptyList));
 
         //Act
-        var result = plan.GetPlans();
+        var result = _sut.GetPlans();
 
         //Assert
         var data = result.Result;
@@ -66,15 +69,5 @@ public class PlanControllerTests
     private IEnumerable<Plan> CreateEmptyListPlans()
     {
         return new List<Plan>();
-    }
-
-    private Mock<IPlanRepository> CreatePlanRepo()
-    {
-        return new Mock<IPlanRepository>();
-    }
-
-    private Adapter.Plan CreatePlanAdapter(Mock<IPlanRepository> planRepository)
-    {
-        return new Adapter.Plan(planRepository.Object);
     }
 }
