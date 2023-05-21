@@ -12,7 +12,7 @@ public class BlogController : ControllerBase
     }
 
     [HttpGet("getBlogs")]
-    public async Task<IEnumerable<Blog>> getBlogs()
+    public async Task<IEnumerable<Blog>> GetBlogs()
     {
         return await _blogRepository.GetBlogs();
     }

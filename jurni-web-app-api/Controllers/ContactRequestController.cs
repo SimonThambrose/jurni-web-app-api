@@ -12,8 +12,20 @@ public class ContactRequestController : ControllerBase
     }
 
     [HttpGet("getContactRequests")]
-    public async Task<IEnumerable<ContactRequest>> getContactRequests()
+    public Task<IEnumerable<ContactRequest>> GetContactRequests()
     {
-        return await _contactRequestRepository.GetContactRequests();
+        return _contactRequestRepository.GetContactRequests();
+    }
+    
+    [HttpGet("getContactRequest/{id}")]
+    public Task<ContactRequest> GetContactRequest(int id)
+    {
+        return _contactRequestRepository.GetContactRequest(id);
+    }
+    
+    [HttpPost("createContactRequest")]
+    public Task<ContactRequest> CreateContactRequest(ContactRequest contactRequest)
+    {
+        return _contactRequestRepository.CreateContactRequest(contactRequest);
     }
 }

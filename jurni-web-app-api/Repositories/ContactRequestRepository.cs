@@ -13,4 +13,16 @@ public class ContactRequestRepository : IContactRequestRepository
     {
         return await _jurniWebAppApiDbContext.ContactRequests.ToListAsync();
     }
+
+    public async Task<ContactRequest>? GetContactRequest(int id)
+    {
+        return await _jurniWebAppApiDbContext.ContactRequests.FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task<ContactRequest> CreateContactRequest(ContactRequest contactRequest)
+    {
+        await _jurniWebAppApiDbContext.ContactRequests.AddAsync(contactRequest);
+        await _jurniWebAppApiDbContext.SaveChangesAsync();
+        return contactRequest;
+    }
 }

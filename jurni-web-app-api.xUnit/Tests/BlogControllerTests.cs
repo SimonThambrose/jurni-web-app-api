@@ -16,7 +16,7 @@ public class BlogControllerTests
         _blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsFromList));
 
         //Act
-        var result = _sut.getBlogs();
+        var result = _sut.GetBlogs();
 
         //Assert
         Assert.NotNull(result);
@@ -36,7 +36,7 @@ public class BlogControllerTests
         _blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsEmptyList));
 
         //Act
-        var result = _sut.getBlogs();
+        var result = _sut.GetBlogs();
 
         //Assert
         var data = result.Result;

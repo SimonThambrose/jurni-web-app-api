@@ -18,7 +18,7 @@ public class ContactRequestControllerTests
         _contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
 
         //Act
-        var result = _sut.getContactRequests();
+        var result = _sut.GetContactRequests();
 
         //Assert
         Assert.NotNull(result);
@@ -39,7 +39,7 @@ public class ContactRequestControllerTests
         _contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
 
         //Act
-        var result = _sut.getContactRequests();
+        var result = _sut.GetContactRequests();
 
         //Assert
         var data = result.Result;
