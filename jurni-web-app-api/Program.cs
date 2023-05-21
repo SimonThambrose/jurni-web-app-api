@@ -1,5 +1,3 @@
-using jurni_web_app_api.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -8,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // UNCOMMENT LINES APPROPRIATE TO DESIRED DATABASE TYPE
 // When using SSH tunneling to connect to a remote database
 var connectionString = builder.Configuration.GetConnectionString("JurniWebAppApiDb");
-builder.Services.AddDbContext<jurni_web_app_apiDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<JurniWebAppApiDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // When using a local database
 // var connectionString = builder.Configuration.GetConnectionString("JurniWebAppApiDb_local");
