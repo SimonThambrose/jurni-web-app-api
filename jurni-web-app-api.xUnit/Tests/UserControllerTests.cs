@@ -25,7 +25,7 @@ public class UserControllerTests
         Assert.NotNull(result);
         var usersFromResult = result.Result;
         Assert.True(usersFromResult.Count().Equals(usersFromList.Count()));
-        Assert.True(usersFromResult.FirstOrDefault().Email.Equals(usersFromList.FirstOrDefault().Email));
+        Assert.True(usersFromResult.FirstOrDefault().Id.Equals(usersFromList.FirstOrDefault().Id));
     }
     
     [Fact]

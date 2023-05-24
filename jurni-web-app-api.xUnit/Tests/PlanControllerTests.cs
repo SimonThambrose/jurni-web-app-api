@@ -25,7 +25,7 @@ public class PlanControllerTests
         Assert.NotNull(result);
         var plansFromResult = result.Result;
         Assert.True(plansFromResult.Count().Equals(plansFromList.Count()));
-        Assert.True(plansFromResult.FirstOrDefault().Name.Equals(plansFromList.FirstOrDefault().Name));
+        Assert.True(plansFromResult.FirstOrDefault().Id.Equals(plansFromList.FirstOrDefault().Id));
     }
 
     [Fact]

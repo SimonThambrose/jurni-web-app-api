@@ -25,7 +25,7 @@ public class BlogControllerTests
         Assert.NotNull(result);
         var blogsFromResult = result.Result;
         Assert.True(blogsFromResult.Count().Equals(blogsFromList.Count()));
-        Assert.True(blogsFromResult.FirstOrDefault().Title.Equals(blogsFromList.FirstOrDefault().Title));
+        Assert.True(blogsFromResult.FirstOrDefault().Id.Equals(blogsFromList.FirstOrDefault().Id));
     }
 
     [Fact]
