@@ -2,43 +2,44 @@ namespace jurni_web_app_api.xUnit.Tests;
 
 public class PlanControllerTests
 {
+    private Mock<IPlanRepository> _planRepo;
+    private PlanController _sut;
+
+    public PlanControllerTests()
+    {
+        _planRepo = new Mock<IPlanRepository>();
+        _sut = new PlanController(_planRepo.Object);
+    }
+    
     [Fact]
-    public void GetPlans_ExistingData_ReturnsPlans()
+    public void GetAllPlans_ExistingData_ReturnsAllPlans()
     {
         //Arrange
-        var planRepo = CreatePlanRepo();
-        var plan = CreatePlanAdapter(planRepo);
         var plansFromList = CreateListPlans();
-
-        planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansFromList));
+        _planRepo.Setup(w => w.GetAllPlans()).Returns(Task.FromResult(plansFromList));
 
         //Act
-        var result = plan.GetPlans();
+        var result = _sut.GetAllPlans();
 
         //Assert
         Assert.NotNull(result);
         var plansFromResult = result.Result;
         Assert.True(plansFromResult.Count().Equals(plansFromList.Count()));
-        Assert.True(plansFromResult.FirstOrDefault().Name
-            .Equals(plansFromList.FirstOrDefault().Name));
+        Assert.True(plansFromResult.FirstOrDefault().Id.Equals(plansFromList.FirstOrDefault().Id));
     }
 
     [Fact]
-    public void GetBlogs_NonExistingData_ReturnsEmptyList()
+    public void GetAllPlans_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var planRepo = CreatePlanRepo();
-        var plan = CreatePlanAdapter(planRepo);
         var plansEmptyList = CreateEmptyListPlans();
-
-        planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansEmptyList));
+        _planRepo.Setup(w => w.GetAllPlans()).Returns(Task.FromResult(plansEmptyList));
 
         //Act
-        var result = plan.GetPlans();
+        var result = _sut.GetAllPlans();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(plansEmptyList.Count(), data.Count());
+        Assert.Equal(plansEmptyList.Count(), result.Result.Count());
     }
 
     private IEnumerable<Plan> CreateListPlans()
@@ -66,15 +67,5 @@ public class PlanControllerTests
     private IEnumerable<Plan> CreateEmptyListPlans()
     {
         return new List<Plan>();
-    }
-
-    private Mock<IPlanRepository> CreatePlanRepo()
-    {
-        return new Mock<IPlanRepository>();
-    }
-
-    private Adapter.Plan CreatePlanAdapter(Mock<IPlanRepository> planRepository)
-    {
-        return new Adapter.Plan(planRepository.Object);
     }
 }

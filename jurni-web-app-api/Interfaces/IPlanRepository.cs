@@ -2,5 +2,5 @@
 
 public interface IPlanRepository
 {
-    Task<IEnumerable<Plan>> GetPlans();
+    Task<IEnumerable<Plan>> GetAllPlans();
 }

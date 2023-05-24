@@ -2,43 +2,44 @@ namespace jurni_web_app_api.xUnit.Tests;
 
 public class BlogControllerTests
 {
+    private Mock<IBlogRepository> _blogRepo;
+    private BlogController _sut;
+
+    public BlogControllerTests()
+    {
+        _blogRepo = new Mock<IBlogRepository>();
+        _sut = new BlogController(_blogRepo.Object);
+    }
+    
     [Fact]
-    public void GetBlogs_ExistingData_ReturnsBlogs()
+    public void GetAllBlogs_ExistingData_ReturnsAllBlogs()
     {
         //Arrange
-        var blogRepo = CreateBlogRepo();
-        var blog = CreateBlogAdapter(blogRepo);
         var blogsFromList = CreateListBlogs();
-
-        blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsFromList));
+        _blogRepo.Setup(w => w.GetAllBlogs()).Returns(Task.FromResult(blogsFromList));
 
         //Act
-        var result = blog.GetBlogs();
+        var result = _sut.GetAllBlogs();
 
         //Assert
         Assert.NotNull(result);
         var blogsFromResult = result.Result;
         Assert.True(blogsFromResult.Count().Equals(blogsFromList.Count()));
-        Assert.True(blogsFromResult.FirstOrDefault().Title
-            .Equals(blogsFromList.FirstOrDefault().Title));
+        Assert.True(blogsFromResult.FirstOrDefault().Id.Equals(blogsFromList.FirstOrDefault().Id));
     }
 
     [Fact]
-    public void GetBlogs_NonExistingData_ReturnsEmptyList()
+    public void GetAllBlogs_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var blogRepo = CreateBlogRepo();
-        var blog = CreateBlogAdapter(blogRepo);
         var blogsEmptyList = CreateEmptyListBlogs();
-
-        blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsEmptyList));
+        _blogRepo.Setup(w => w.GetAllBlogs()).Returns(Task.FromResult(blogsEmptyList));
 
         //Act
-        var result = blog.GetBlogs();
+        var result = _sut.GetAllBlogs();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(blogsEmptyList.Count(), data.Count());
+        Assert.Equal(blogsEmptyList.Count(), result.Result.Count());
     }
 
     private IEnumerable<Blog> CreateListBlogs()
@@ -94,15 +95,5 @@ public class BlogControllerTests
     private IEnumerable<Blog> CreateEmptyListBlogs()
     {
         return new List<Blog>();
-    }
-
-    private Mock<IBlogRepository> CreateBlogRepo()
-    {
-        return new Mock<IBlogRepository>();
-    }
-
-    private Adapter.Blog CreateBlogAdapter(Mock<IBlogRepository> blogRepository)
-    {
-        return new Adapter.Blog(blogRepository.Object);
     }
 }

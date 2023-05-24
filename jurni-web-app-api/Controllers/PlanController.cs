@@ -4,16 +4,16 @@
 [Route("/api/[controller]")]
 public class PlanController : ControllerBase
 {
-    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
-    
-    public PlanController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
+    private IPlanRepository _planRepository;
+
+    public PlanController(IPlanRepository planRepository)
     {
-        _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
+        _planRepository = planRepository;
     }
-    
-    [HttpGet("getPlans")]
-    public async Task<IEnumerable<Plan>> GetPlans()
+
+    [HttpGet("getAllPlans")]
+    public async Task<IEnumerable<Plan>> GetAllPlans()
     {
-        return await _jurniWebAppApiDbContext.Plans.ToListAsync();
+        return await _planRepository.GetAllPlans();
     }
 }

@@ -1,44 +1,119 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace jurni_web_app_api.xUnit.Tests;
 
 public class ContactRequestControllerTests
 {
+    private Mock<IContactRequestRepository> _contactRequestRepo;
+    private ContactRequestController _sut;
+
+    public ContactRequestControllerTests()
+    {
+        _contactRequestRepo = new Mock<IContactRequestRepository>();
+        _sut = new ContactRequestController(_contactRequestRepo.Object);
+    }
+    
     [Fact]
-    public void GetContactRequests_ExistingData_ReturnsContactRequests()
+    public void GetAllContactRequests_ExistingData_ReturnsAllContactRequests()
     {
         //Arrange
-        var contactRequestRepo = CreateContactRequestRepo();
-        var contactRequest = CreateContactRequestAdapter(contactRequestRepo);
-        var contactRequestsFromList = CreateListContactRequests();
-
-        contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
+        IEnumerable<ContactRequest> contactRequestsFromList = CreateListContactRequests();
+        _contactRequestRepo.Setup(c => c.GetAllContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
 
         //Act
-        var result = contactRequest.GetContactRequests();
+        var result = _sut.GetAllContactRequests();
 
         //Assert
         Assert.NotNull(result);
         var contactRequestsFromResult = result.Result;
         Assert.True(contactRequestsFromResult.Count().Equals(contactRequestsFromList.Count()));
-        Assert.True(contactRequestsFromResult.FirstOrDefault().Message
-            .Equals(contactRequestsFromList.FirstOrDefault().Message));
+        Assert.True(contactRequestsFromResult.FirstOrDefault().Id.Equals(contactRequestsFromList.FirstOrDefault().Id));
     }
 
     [Fact]
-    public void GetContactRequests_NonExistingData_ReturnsEmptyList()
+    public void GetAllContactRequests_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var contactRequestRepo = CreateContactRequestRepo();
-        var contactRequest = CreateContactRequestAdapter(contactRequestRepo);
-        var contactRequestsEmptyList = CreateEmptyListContactRequests();
-
-        contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
+        IEnumerable<ContactRequest> contactRequestsEmptyList = CreateEmptyListContactRequests();
+        _contactRequestRepo.Setup(c => c.GetAllContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
 
         //Act
-        var result = contactRequest.GetContactRequests();
+        var result = _sut.GetAllContactRequests();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(contactRequestsEmptyList.Count(), data.Count());
+        Assert.NotNull(result);
+        Assert.Equal(contactRequestsEmptyList.Count(), result.Result.Count());
+    }
+    
+    [Fact]
+    public void GetContactRequest_ValidId_ReturnsContactRequest()
+    {
+        //Arrange
+        ContactRequest contactRequest = CreateValidContactRequest();
+        _contactRequestRepo.Setup(c => c.GetContactRequest(1)).ReturnsAsync(contactRequest);
+
+        //Act
+        var result = _sut.GetContactRequest(1);
+        
+        Assert.NotNull(result);
+        var contactRequestFromResult = result.Result;
+        Assert.IsType<OkObjectResult>(contactRequestFromResult.Result);
+        var contactRequestFromResultValue = (ContactRequest)((OkObjectResult)contactRequestFromResult.Result).Value;
+        Assert.Equal(contactRequest.Id, (contactRequestFromResultValue).Id);
+        Assert.Equal(contactRequest.FirstName, (contactRequestFromResultValue).FirstName);
+        Assert.Equal(contactRequest.LastName, (contactRequestFromResultValue).LastName);
+        Assert.Equal(contactRequest.Email, (contactRequestFromResultValue).Email);
+        Assert.Equal(contactRequest.Message, (contactRequestFromResultValue).Message);
+        Assert.Equal(contactRequest.IsEnterprisePlan, (contactRequestFromResultValue).IsEnterprisePlan);
+        Assert.Equal(contactRequest.Status, (contactRequestFromResultValue).Status);
+        Assert.Equal(contactRequest.CreatedOn, (contactRequestFromResultValue).CreatedOn);
+        Assert.Equal(contactRequest.UpdatedOn, (contactRequestFromResultValue).UpdatedOn);
+    }
+    
+    [Fact]
+    public void GetContactRequest_InValidId_ReturnsNotFound()
+    {
+        //Arrange
+        ContactRequest contactRequest = null;
+        _contactRequestRepo.Setup(c => c.GetContactRequest(1)).ReturnsAsync(contactRequest);
+
+        // Act
+        var result = _sut.GetContactRequest(1);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<NotFoundResult>(result.Result.Result);
+    }
+    
+    [Fact]
+    public void CreateValidContactRequest_ValidContactRequest_ReturnsContactRequest()
+    {
+        //Arrange
+        ContactRequest contactRequest = CreateValidContactRequest();
+        _contactRequestRepo.Setup(c => c.CreateContactRequest(contactRequest)).ReturnsAsync(contactRequest);
+        
+        //Act
+        var result = _sut.CreateContactRequest(contactRequest);
+        
+        //Assert
+        Assert.NotNull(result);
+        var contactRequestFromResult = result.Result;
+        Assert.IsType<OkObjectResult>(contactRequestFromResult.Result);
+        Assert.Equal(contactRequest, ((OkObjectResult)contactRequestFromResult.Result).Value);
+    }
+    
+    [Fact]
+    public void CreateValidContactRequest_InValidContactRequest_ReturnsNull()
+    {
+        //Arrange
+        ContactRequest contactRequest = CreateInValidContactRequest();
+        
+        //Act
+        var result = _sut.CreateContactRequest(contactRequest);
+        
+        //Assert
+        Assert.NotNull(result);
+        Assert.IsType<BadRequestResult>(result.Result.Result);
     }
 
     private IEnumerable<ContactRequest> CreateListContactRequests()
@@ -94,14 +169,28 @@ public class ContactRequestControllerTests
     {
         return new List<ContactRequest>();
     }
-
-    private Mock<IContactRequestRepository> CreateContactRequestRepo()
+    
+    private ContactRequest CreateValidContactRequest()
     {
-        return new Mock<IContactRequestRepository>();
+        ContactRequest contactRequest = new ContactRequest
+        {
+            Id = 1, FirstName = "John", LastName = "Doe", Email = "john@doe.com",
+            Message = "Contact request message", IsEnterprisePlan = true, Status = "OPEN",
+            CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now
+        };
+        
+        return contactRequest;
     }
-
-    private Adapter.ContactRequest CreateContactRequestAdapter(Mock<IContactRequestRepository> contactRequestRepository)
+    
+    private ContactRequest CreateInValidContactRequest()
     {
-        return new Adapter.ContactRequest(contactRequestRepository.Object);
+        ContactRequest contactRequest = new ContactRequest
+        {
+            Id = 2, FirstName = null, LastName = null, Email = "invalid-email",
+            Message = null, IsEnterprisePlan = false,
+            CreatedOn = DateTime.Now, UpdatedOn = DateTime.Now
+        };
+        
+        return contactRequest;
     }
 }

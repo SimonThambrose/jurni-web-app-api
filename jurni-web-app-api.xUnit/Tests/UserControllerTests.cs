@@ -2,43 +2,44 @@ namespace jurni_web_app_api.xUnit.Tests;
 
 public class UserControllerTests
 {
+    private Mock<IUserRepository> _userRepo;
+    private UserController _sut;
+
+    public UserControllerTests()
+    {
+        _userRepo = new Mock<IUserRepository>();
+        _sut = new UserController(_userRepo.Object);
+    }
+    
     [Fact]
-    public void GetUsers_ExistingData_ReturnsUsers()
+    public void GetAllUsers_ExistingData_ReturnsAllUsers()
     {
         //Arrange
-        var userRepo = CreateUserRepo();
-        var user = CreateUserAdapter(userRepo);
         var usersFromList = CreateListUsers();
-
-        userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(usersFromList));
+        _userRepo.Setup(w => w.GetAllUsers()).Returns(Task.FromResult(usersFromList));
 
         //Act
-        var result = user.GetUsers();
+        var result = _sut.GetAllUsers();
 
         //Assert
         Assert.NotNull(result);
         var usersFromResult = result.Result;
         Assert.True(usersFromResult.Count().Equals(usersFromList.Count()));
-        Assert.True(usersFromResult.FirstOrDefault().Email
-            .Equals(usersFromList.FirstOrDefault().Email));
+        Assert.True(usersFromResult.FirstOrDefault().Id.Equals(usersFromList.FirstOrDefault().Id));
     }
     
     [Fact]
-    public void GetUsers_NonExistingData_ReturnsEmptyList()
+    public void GetAllUsers_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        var userRepo = CreateUserRepo();
-        var user = CreateUserAdapter(userRepo);
         var userEmptyList = CreateEmptyListUsers();
-
-        userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(userEmptyList));
+        _userRepo.Setup(w => w.GetAllUsers()).Returns(Task.FromResult(userEmptyList));
 
         //Act
-        var result = user.GetUsers();
+        var result = _sut.GetAllUsers();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(userEmptyList.Count(), data.Count());
+        Assert.Equal(userEmptyList.Count(), result.Result.Count());
     }
 
     private IEnumerable<User> CreateListUsers()
@@ -94,15 +95,5 @@ public class UserControllerTests
     private IEnumerable<User> CreateEmptyListUsers()
     {
         return new List<User>();
-    }
-
-    private Mock<IUserRepository> CreateUserRepo()
-    {
-        return new Mock<IUserRepository>();
-    }
-
-    private Adapter.User CreateUserAdapter(Mock<IUserRepository> userRepository)
-    {
-        return new Adapter.User(userRepository.Object);
     }
 }

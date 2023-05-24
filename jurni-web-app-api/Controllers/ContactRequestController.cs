@@ -4,16 +4,30 @@
 [Route("/api/[controller]")]
 public class ContactRequestController : ControllerBase
 {
-    private readonly JurniWebAppApiDbContext _jurniWebAppApiDbContext;
-    
-    public ContactRequestController(JurniWebAppApiDbContext jurniWebAppApiDbContext)
+    private IContactRequestRepository _contactRequestRepository;
+
+    public ContactRequestController(IContactRequestRepository contactRequestRepository)
     {
-        _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
+        _contactRequestRepository = contactRequestRepository;
+    }
+
+    [HttpGet("getAllContactRequests")]
+    public Task<IEnumerable<ContactRequest>> GetAllContactRequests()
+    {
+        return _contactRequestRepository.GetAllContactRequests();
     }
     
-    [HttpGet("getContactRequests")]
-    public async Task<IEnumerable<ContactRequest>> GetContactRequests()
+    [HttpGet("getContactRequest/{id}")]
+    public async Task<ActionResult<ContactRequest>> GetContactRequest(int id)
     {
-        return await _jurniWebAppApiDbContext.ContactRequests.ToListAsync();
+        ContactRequest contactRequest = await _contactRequestRepository.GetContactRequest(id);
+        return contactRequest != null ? Ok(contactRequest) : NotFound();
+    }
+    
+    [HttpPost("createContactRequest")]
+    public async Task<ActionResult<ContactRequest>> CreateContactRequest(ContactRequest contactRequest)
+    {
+        ContactRequest result = await _contactRequestRepository.CreateContactRequest(contactRequest);
+        return result != null ? Ok(contactRequest) : BadRequest();
     }
 }

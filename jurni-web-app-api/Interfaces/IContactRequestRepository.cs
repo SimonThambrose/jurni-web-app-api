@@ -2,5 +2,7 @@
 
 public interface IContactRequestRepository
 {
-    Task<IEnumerable<ContactRequest>> GetContactRequests();
+    Task<IEnumerable<ContactRequest>> GetAllContactRequests();
+    Task<ContactRequest>? GetContactRequest(int id);
+    Task<ContactRequest> CreateContactRequest(ContactRequest contactRequest);
 }

@@ -1,3 +1,4 @@
+using jurni_web_app_api.Repositories;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -11,6 +12,11 @@ builder.Services.AddDbContext<JurniWebAppApiDbContext>(options => options.UseMyS
 // When using a local database
 // var connectionString = builder.Configuration.GetConnectionString("JurniWebAppApiDb_local");
 // builder.Services.AddDbContext<JurniWebAppDbContext>(options => options.UseSqlite(connectionString));
+
+builder.Services.AddTransient<IBlogRepository, BlogRepository>();
+builder.Services.AddTransient<IContactRequestRepository, ContactRequestRepository>();
+builder.Services.AddTransient<IPlanRepository, PlanRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -2,5 +2,5 @@
 
 public interface IUserRepository
 {
-    Task<IEnumerable<User>> GetUsers();
+    Task<IEnumerable<User>> GetAllUsers();
 }
