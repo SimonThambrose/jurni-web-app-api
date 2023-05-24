@@ -11,10 +11,10 @@ public class ContactRequestController : ControllerBase
         _contactRequestRepository = contactRequestRepository;
     }
 
-    [HttpGet("getContactRequests")]
-    public Task<IEnumerable<ContactRequest>> GetContactRequests()
+    [HttpGet("getAllContactRequests")]
+    public Task<IEnumerable<ContactRequest>> GetAllContactRequests()
     {
-        return _contactRequestRepository.GetContactRequests();
+        return _contactRequestRepository.GetAllContactRequests();
     }
     
     [HttpGet("getContactRequest/{id}")]

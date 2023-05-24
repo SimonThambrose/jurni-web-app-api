@@ -11,9 +11,9 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [HttpGet("getUsers")]
-    public async Task<IEnumerable<User>> GetUsers()
+    [HttpGet("getAllUsers")]
+    public async Task<IEnumerable<User>> GetAllUsers()
     {
-        return await _userRepository.GetUsers();
+        return await _userRepository.GetAllUsers();
     }
 }

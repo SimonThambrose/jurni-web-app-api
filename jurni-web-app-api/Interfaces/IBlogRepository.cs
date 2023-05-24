@@ -2,5 +2,5 @@
 
 public interface IBlogRepository
 {
-    Task<IEnumerable<Blog>> GetBlogs();
+    Task<IEnumerable<Blog>> GetAllBlogs();
 }

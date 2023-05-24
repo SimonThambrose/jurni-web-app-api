@@ -4,44 +4,42 @@ public class UserControllerTests
 {
     private Mock<IUserRepository> _userRepo;
     private UserController _sut;
-    
-    [Fact]
-    public void GetUsers_ExistingData_ReturnsUsers()
+
+    public UserControllerTests()
     {
-        //Arrange
         _userRepo = new Mock<IUserRepository>();
         _sut = new UserController(_userRepo.Object);
+    }
+    
+    [Fact]
+    public void GetAllUsers_ExistingData_ReturnsAllUsers()
+    {
+        //Arrange
         var usersFromList = CreateListUsers();
-
-        _userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(usersFromList));
+        _userRepo.Setup(w => w.GetAllUsers()).Returns(Task.FromResult(usersFromList));
 
         //Act
-        var result = _sut.GetUsers();
+        var result = _sut.GetAllUsers();
 
         //Assert
         Assert.NotNull(result);
         var usersFromResult = result.Result;
         Assert.True(usersFromResult.Count().Equals(usersFromList.Count()));
-        Assert.True(usersFromResult.FirstOrDefault().Email
-            .Equals(usersFromList.FirstOrDefault().Email));
+        Assert.True(usersFromResult.FirstOrDefault().Email.Equals(usersFromList.FirstOrDefault().Email));
     }
     
     [Fact]
-    public void GetUsers_NonExistingData_ReturnsEmptyList()
+    public void GetAllUsers_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        _userRepo = new Mock<IUserRepository>();
-        _sut = new UserController(_userRepo.Object);
         var userEmptyList = CreateEmptyListUsers();
-
-        _userRepo.Setup(w => w.GetUsers()).Returns(Task.FromResult(userEmptyList));
+        _userRepo.Setup(w => w.GetAllUsers()).Returns(Task.FromResult(userEmptyList));
 
         //Act
-        var result = _sut.GetUsers();
+        var result = _sut.GetAllUsers();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(userEmptyList.Count(), data.Count());
+        Assert.Equal(userEmptyList.Count(), result.Result.Count());
     }
 
     private IEnumerable<User> CreateListUsers()

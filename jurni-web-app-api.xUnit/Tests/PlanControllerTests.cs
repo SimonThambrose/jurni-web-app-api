@@ -4,44 +4,42 @@ public class PlanControllerTests
 {
     private Mock<IPlanRepository> _planRepo;
     private PlanController _sut;
-    
-    [Fact]
-    public void GetPlans_ExistingData_ReturnsPlans()
+
+    public PlanControllerTests()
     {
-        //Arrange
         _planRepo = new Mock<IPlanRepository>();
         _sut = new PlanController(_planRepo.Object);
+    }
+    
+    [Fact]
+    public void GetAllPlans_ExistingData_ReturnsAllPlans()
+    {
+        //Arrange
         var plansFromList = CreateListPlans();
-
-        _planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansFromList));
+        _planRepo.Setup(w => w.GetAllPlans()).Returns(Task.FromResult(plansFromList));
 
         //Act
-        var result = _sut.GetPlans();
+        var result = _sut.GetAllPlans();
 
         //Assert
         Assert.NotNull(result);
         var plansFromResult = result.Result;
         Assert.True(plansFromResult.Count().Equals(plansFromList.Count()));
-        Assert.True(plansFromResult.FirstOrDefault().Name
-            .Equals(plansFromList.FirstOrDefault().Name));
+        Assert.True(plansFromResult.FirstOrDefault().Name.Equals(plansFromList.FirstOrDefault().Name));
     }
 
     [Fact]
-    public void GetBlogs_NonExistingData_ReturnsEmptyList()
+    public void GetAllPlans_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        _planRepo = new Mock<IPlanRepository>();
-        _sut = new PlanController(_planRepo.Object);
         var plansEmptyList = CreateEmptyListPlans();
-
-        _planRepo.Setup(w => w.GetPlans()).Returns(Task.FromResult(plansEmptyList));
+        _planRepo.Setup(w => w.GetAllPlans()).Returns(Task.FromResult(plansEmptyList));
 
         //Act
-        var result = _sut.GetPlans();
+        var result = _sut.GetAllPlans();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(plansEmptyList.Count(), data.Count());
+        Assert.Equal(plansEmptyList.Count(), result.Result.Count());
     }
 
     private IEnumerable<Plan> CreateListPlans()

@@ -11,9 +11,9 @@ public class BlogController : ControllerBase
         _blogRepository = blogRepository;
     }
 
-    [HttpGet("getBlogs")]
-    public async Task<IEnumerable<Blog>> GetBlogs()
+    [HttpGet("getAllBlogs")]
+    public async Task<IEnumerable<Blog>> GetAllBlogs()
     {
-        return await _blogRepository.GetBlogs();
+        return await _blogRepository.GetAllBlogs();
     }
 }

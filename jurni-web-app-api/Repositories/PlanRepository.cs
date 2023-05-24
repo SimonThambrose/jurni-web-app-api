@@ -9,7 +9,7 @@ public class PlanRepository : IPlanRepository
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }
 
-    public async Task<IEnumerable<Plan>> GetPlans()
+    public async Task<IEnumerable<Plan>> GetAllPlans()
     {
         return await _jurniWebAppApiDbContext.Plans.ToListAsync();
     }

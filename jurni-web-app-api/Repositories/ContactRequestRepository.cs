@@ -9,7 +9,7 @@ public class ContactRequestRepository : IContactRequestRepository
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }
 
-    public async Task<IEnumerable<ContactRequest>> GetContactRequests()
+    public async Task<IEnumerable<ContactRequest>> GetAllContactRequests()
     {
         return await _jurniWebAppApiDbContext.ContactRequests.ToListAsync();
     }

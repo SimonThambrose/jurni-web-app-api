@@ -9,8 +9,7 @@ public class UserRepository : IUserRepository
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }
 
-    [HttpGet("getUsers")]
-    public async Task<IEnumerable<User>> GetUsers()
+    public async Task<IEnumerable<User>> GetAllUsers()
     {
         return await _jurniWebAppApiDbContext.Users.ToListAsync();
     }

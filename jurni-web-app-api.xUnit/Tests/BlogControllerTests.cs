@@ -4,19 +4,22 @@ public class BlogControllerTests
 {
     private Mock<IBlogRepository> _blogRepo;
     private BlogController _sut;
-    
-    [Fact]
-    public void GetBlogs_ExistingData_ReturnsBlogs()
+
+    public BlogControllerTests()
     {
-        //Arrange
         _blogRepo = new Mock<IBlogRepository>();
         _sut = new BlogController(_blogRepo.Object);
+    }
+    
+    [Fact]
+    public void GetAllBlogs_ExistingData_ReturnsAllBlogs()
+    {
+        //Arrange
         var blogsFromList = CreateListBlogs();
-
-        _blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsFromList));
+        _blogRepo.Setup(w => w.GetAllBlogs()).Returns(Task.FromResult(blogsFromList));
 
         //Act
-        var result = _sut.GetBlogs();
+        var result = _sut.GetAllBlogs();
 
         //Assert
         Assert.NotNull(result);
@@ -26,21 +29,17 @@ public class BlogControllerTests
     }
 
     [Fact]
-    public void GetBlogs_NonExistingData_ReturnsEmptyList()
+    public void GetAllBlogs_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        _blogRepo = new Mock<IBlogRepository>();
-        _sut = new BlogController(_blogRepo.Object);
         var blogsEmptyList = CreateEmptyListBlogs();
-
-        _blogRepo.Setup(w => w.GetBlogs()).Returns(Task.FromResult(blogsEmptyList));
+        _blogRepo.Setup(w => w.GetAllBlogs()).Returns(Task.FromResult(blogsEmptyList));
 
         //Act
-        var result = _sut.GetBlogs();
+        var result = _sut.GetAllBlogs();
 
         //Assert
-        var data = result.Result;
-        Assert.Equal(blogsEmptyList.Count(), data.Count());
+        Assert.Equal(blogsEmptyList.Count(), result.Result.Count());
     }
 
     private IEnumerable<Blog> CreateListBlogs()

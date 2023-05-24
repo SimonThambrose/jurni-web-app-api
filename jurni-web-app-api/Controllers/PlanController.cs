@@ -11,9 +11,9 @@ public class PlanController : ControllerBase
         _planRepository = planRepository;
     }
 
-    [HttpGet("getPlans")]
-    public async Task<IEnumerable<Plan>> GetPlans()
+    [HttpGet("getAllPlans")]
+    public async Task<IEnumerable<Plan>> GetAllPlans()
     {
-        return await _planRepository.GetPlans();
+        return await _planRepository.GetAllPlans();
     }
 }

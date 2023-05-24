@@ -9,7 +9,7 @@ public class BlogRepository : IBlogRepository
         _jurniWebAppApiDbContext = jurniWebAppApiDbContext;
     }
 
-    public async Task<IEnumerable<Blog>> GetBlogs()
+    public async Task<IEnumerable<Blog>> GetAllBlogs()
     {
         return await _jurniWebAppApiDbContext.Blogs.ToListAsync();
     }

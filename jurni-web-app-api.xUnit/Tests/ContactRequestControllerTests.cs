@@ -6,37 +6,44 @@ public class ContactRequestControllerTests
 {
     private Mock<IContactRequestRepository> _contactRequestRepo;
     private ContactRequestController _sut;
-    
-    [Fact]
-    public void GetContactRequests_ExistingData_ReturnsContactRequests()
+
+    public ContactRequestControllerTests()
     {
-        //Arrange
         _contactRequestRepo = new Mock<IContactRequestRepository>();
         _sut = new ContactRequestController(_contactRequestRepo.Object);
-        var contactRequestsFromList = CreateListContactRequests();
-
-        _contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
+    }
+    
+    [Fact]
+    public void GetAllContactRequests_ExistingData_ReturnsAllContactRequests()
+    {
+        //Arrange
+        IEnumerable<ContactRequest> contactRequestsFromList = CreateListContactRequests();
+        _contactRequestRepo.Setup(c => c.GetAllContactRequests()).Returns(Task.FromResult(contactRequestsFromList));
 
         //Act
-        var result = _sut.GetContactRequests();
+        var result = _sut.GetAllContactRequests();
 
         //Assert
         Assert.NotNull(result);
         var contactRequestsFromResult = result.Result;
         Assert.True(contactRequestsFromResult.Count().Equals(contactRequestsFromList.Count()));
-        Assert.True(contactRequestsFromResult.FirstOrDefault().Message
-            .Equals(contactRequestsFromList.FirstOrDefault().Message));
+        Assert.True(contactRequestsFromResult.FirstOrDefault().Message.Equals(contactRequestsFromList.FirstOrDefault().Message));
     }
 
     [Fact]
-    public void GetContactRequests_NonExistingData_ReturnsEmptyList()
+    public void GetAllContactRequests_NonExistingData_ReturnsEmptyList()
     {
         //Arrange
-        _contactRequestRepo = new Mock<IContactRequestRepository>();
-        _sut = new ContactRequestController(_contactRequestRepo.Object);
-        var contactRequestsEmptyList = CreateEmptyListContactRequests();
+        IEnumerable<ContactRequest> contactRequestsEmptyList = CreateEmptyListContactRequests();
+        _contactRequestRepo.Setup(c => c.GetAllContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
 
-        _contactRequestRepo.Setup(w => w.GetContactRequests()).Returns(Task.FromResult(contactRequestsEmptyList));
+        //Act
+        var result = _sut.GetAllContactRequests();
+
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal(contactRequestsEmptyList.Count(), result.Result.Count());
+    }
 
         //Act
         var result = _sut.GetContactRequests();
