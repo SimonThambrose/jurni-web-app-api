@@ -16,4 +16,18 @@ public class UserController : ControllerBase
     {
         return await _userRepository.GetAllUsers();
     }
+
+    [HttpGet("getUser")]
+    public async Task<ActionResult<User>> GetUser(string email, string password)
+    {
+        User result = await _userRepository.GetUser(email, password);
+        return result != null ? Ok(result) : NotFound();
+    }
+
+    [HttpPost("createUser")]
+    public async Task<ActionResult<User>> CreateUser(UserModel userModel)
+    {
+        User result = await _userRepository.CreateUser(userModel);
+        return result != null ? Ok(result) : BadRequest();
+    }
 }

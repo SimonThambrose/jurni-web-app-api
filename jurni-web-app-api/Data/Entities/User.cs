@@ -21,13 +21,13 @@ public class User
     [Key]
     public int Id { get; set; }
 
-    [StringLength(45, MinimumLength = 1)]
+    [Required, StringLength(45, MinimumLength = 1)]
     public string FirstName { get; set; }
 
-    [StringLength(45, MinimumLength = 1, ErrorMessage = EntityValidations.StringBetweenLengthMessage)]
+    [Required, StringLength(45, MinimumLength = 1, ErrorMessage = EntityValidations.StringBetweenLengthMessage)]
     public string LastName { get; set; }
 
-    [StringLength(90, MinimumLength = 5)]
+    [Required, StringLength(90, MinimumLength = 5)]
     public string Email { get; set; }
     public byte[] PasswordSalt { get; set; }
     public byte[] PasswordHash { get; set; }
@@ -40,5 +40,5 @@ public class User
     
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedAt { get; set; }
-    public ICollection<Blog> Blogs { get; set; }
+    public ICollection<Blog>? Blogs { get; set; }
 }
