@@ -58,16 +58,7 @@ public class ContactRequestControllerTests
         Assert.NotNull(result);
         var contactRequestFromResult = result.Result;
         Assert.IsType<OkObjectResult>(contactRequestFromResult.Result);
-        var contactRequestFromResultValue = (ContactRequest)((OkObjectResult)contactRequestFromResult.Result).Value;
-        Assert.Equal(contactRequest.Id, (contactRequestFromResultValue).Id);
-        Assert.Equal(contactRequest.FirstName, (contactRequestFromResultValue).FirstName);
-        Assert.Equal(contactRequest.LastName, (contactRequestFromResultValue).LastName);
-        Assert.Equal(contactRequest.Email, (contactRequestFromResultValue).Email);
-        Assert.Equal(contactRequest.Message, (contactRequestFromResultValue).Message);
-        Assert.Equal(contactRequest.IsEnterprisePlan, (contactRequestFromResultValue).IsEnterprisePlan);
-        Assert.Equal(contactRequest.Status, (contactRequestFromResultValue).Status);
-        Assert.Equal(contactRequest.CreatedOn, (contactRequestFromResultValue).CreatedOn);
-        Assert.Equal(contactRequest.UpdatedOn, (contactRequestFromResultValue).UpdatedOn);
+        Assert.Equal(contactRequest, (ContactRequest)((OkObjectResult)contactRequestFromResult.Result).Value);
     }
     
     [Fact]

@@ -20,14 +20,14 @@ public class ContactRequestController : ControllerBase
     [HttpGet("getContactRequest/{id}")]
     public async Task<ActionResult<ContactRequest>> GetContactRequest(int id)
     {
-        ContactRequest contactRequest = await _contactRequestRepository.GetContactRequest(id);
-        return contactRequest != null ? Ok(contactRequest) : NotFound();
+        ContactRequest result = await _contactRequestRepository.GetContactRequest(id);
+        return result != null ? Ok(result) : NotFound();
     }
     
     [HttpPost("createContactRequest")]
     public async Task<ActionResult<ContactRequest>> CreateContactRequest(ContactRequest contactRequest)
     {
         ContactRequest result = await _contactRequestRepository.CreateContactRequest(contactRequest);
-        return result != null ? Ok(contactRequest) : BadRequest();
+        return result != null ? Ok(result) : BadRequest();
     }
 }
