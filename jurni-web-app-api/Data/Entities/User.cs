@@ -40,5 +40,5 @@ public class User
     
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedAt { get; set; }
-    public ICollection<Blog> Blogs { get; set; }
+    public ICollection<Blog>? Blogs { get; set; }
 }

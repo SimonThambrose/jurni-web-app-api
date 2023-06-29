@@ -4,7 +4,7 @@
 [Route("/api/[controller]")]
 public class ContactRequestController : ControllerBase
 {
-    private IContactRequestRepository _contactRequestRepository;
+    private readonly IContactRequestRepository _contactRequestRepository;
 
     public ContactRequestController(IContactRequestRepository contactRequestRepository)
     {

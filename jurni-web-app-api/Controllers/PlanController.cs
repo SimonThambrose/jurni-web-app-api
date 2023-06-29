@@ -4,7 +4,7 @@
 [Route("/api/[controller]")]
 public class PlanController : ControllerBase
 {
-    private IPlanRepository _planRepository;
+    private readonly IPlanRepository _planRepository;
 
     public PlanController(IPlanRepository planRepository)
     {

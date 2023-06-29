@@ -13,4 +13,22 @@ public class BlogRepository : IBlogRepository
     {
         return await _jurniWebAppApiDbContext.Blogs.ToListAsync();
     }
+    
+    public async Task<Blog> UpdateBlogLikes(int id)
+    {
+        var blog = _jurniWebAppApiDbContext.Blogs.FirstOrDefault(b => b.Id == id);
+        if (blog != null)
+        {
+            blog.Likes += 1;
+            await _jurniWebAppApiDbContext.SaveChangesAsync();
+        }
+        return blog;
+    }
+    
+    public async Task<Blog> CreateBlog(Blog blog)
+    {
+        await _jurniWebAppApiDbContext.Blogs.AddAsync(blog);
+        await _jurniWebAppApiDbContext.SaveChangesAsync();
+        return blog;
+    }
 }
