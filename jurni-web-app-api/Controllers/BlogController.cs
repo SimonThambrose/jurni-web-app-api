@@ -16,4 +16,11 @@ public class BlogController : ControllerBase
     {
         return await _blogRepository.GetAllBlogs();
     }
+    
+    [HttpPut("{id}/like")]
+    public async Task<ActionResult<Blog>> UpdateBlogLikes(int id)
+    {
+        Blog result = await _blogRepository.UpdateBlogLikes(id);
+        return result != null ? Ok(result) : BadRequest();
+    }
 }

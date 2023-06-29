@@ -3,4 +3,5 @@
 public interface IBlogRepository
 {
     Task<IEnumerable<Blog>> GetAllBlogs();
+    Task<Blog> UpdateBlogLikes(int id);
 }
