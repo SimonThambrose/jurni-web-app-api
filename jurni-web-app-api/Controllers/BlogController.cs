@@ -23,4 +23,11 @@ public class BlogController : ControllerBase
         Blog result = await _blogRepository.UpdateBlogLikes(id);
         return result != null ? Ok(result) : BadRequest();
     }
+    
+    [HttpPost("createBlog")]
+    public async Task<ActionResult<Blog>> CreateBlog(Blog blog)
+    {
+        Blog result = await _blogRepository.CreateBlog(blog);
+        return result != null ? Ok(blog) : BadRequest();
+    }
 }

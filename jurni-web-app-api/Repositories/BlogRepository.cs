@@ -24,4 +24,11 @@ public class BlogRepository : IBlogRepository
         }
         return blog;
     }
+    
+    public async Task<Blog> CreateBlog(Blog blog)
+    {
+        await _jurniWebAppApiDbContext.Blogs.AddAsync(blog);
+        await _jurniWebAppApiDbContext.SaveChangesAsync();
+        return blog;
+    }
 }
