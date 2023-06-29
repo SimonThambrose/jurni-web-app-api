@@ -4,7 +4,7 @@
 [Route("/api/[controller]")]
 public class BlogController : ControllerBase
 {
-    private IBlogRepository _blogRepository;
+    private readonly IBlogRepository _blogRepository;
 
     public BlogController(IBlogRepository blogRepository)
     {

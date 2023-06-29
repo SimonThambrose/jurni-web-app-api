@@ -4,7 +4,7 @@
 [Route("/api/[controller]")]
 public class UserController : ControllerBase
 {
-    private IUserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
 
     public UserController(IUserRepository userRepository)
     {
