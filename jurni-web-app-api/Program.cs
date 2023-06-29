@@ -56,7 +56,7 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<LikeHub>("/likeHub");
+    endpoints.MapHub<SignalRHub>("/signalRHub");
 });
 
 app.MapControllers();
